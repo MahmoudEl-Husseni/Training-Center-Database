@@ -1,0 +1,46 @@
+Q1: Number of employees in each department along with average salary of employees in this department.
+
+select Department.Dept_name, count(E_ID) count_of_employees, AVG(salary) Average_salary
+from Company_Employee, Department
+where Company_Employee.Dept_ID = Department.Dept_ID  
+group by Department.Dept_ID ;
+======================================================================================================
+Q2: Name of Employee who won First Remuneration most.
+
+select concat(Fname, ' ', Lname) as Name from Company_Employee
+where E_ID =  
+(select First_EID from (select First_EID, count(First_EID)  as cnt from Remuneration group by First_EID) t 
+where cnt =  
+(select max(cnt2) max from (select count(First_EID) cnt2 from Remuneration group by First_EID) t2));
+======================================================================================================
+Q3: List Employees works in both Company and Training Center.
+
+select t.* 
+from Training_Employee t, Company_Employee c 
+where t.E_ID = c.E_ID;
+======================================================================================================
+Q4: How many Departments in each branch + Location + Budget + Area ?
+
+select Branch.B_ID, count(Dept_ID) "NO. Departments", Location, Budget, Area 
+from Branch, Department 
+where Branch.B_ID = Department.B_ID group by Branch.B_ID 
+order by Area desc;
+======================================================================================================
+Q5: How many Hours does each employee spend in all projects?
+
+select concat(Fname, ' ', Lname) Name, SUM(Hours) "Total Hours" 
+from Company_Employee, Emp_Proj, Project 
+where Company_Employee.E_ID = Emp_Proj.E_ID and Project.P_ID = Emp_Proj.proj_ID 
+GROUP BY Company_Employee.E_ID;
+======================================================================================================
+Q6: List No. Courses and Programs in each branch.
+
+select Branch.B_ID, Count(Course_code) "No. Courses", count(Program.Prog_ID) "No. Programs" 
+from Branch, Program, Teaches 
+WHERE Branch.B_ID = Program.B_ID and Program.prog_ID = Teaches.Prog_ID 
+Group by Branch.B_ID;
+======================================================================================================
+Q7: Sort Students by their addmission date.
+
+select * from Student order by Addmission_date;
+======================================================================================================
